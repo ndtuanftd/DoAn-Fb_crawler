@@ -97,7 +97,7 @@ export default function Signup() {
                       onChange={(event) => setEmail(event.target.value)}
                     />
                     <small id="emailHelp" className="text-danger form-text">
-                      {usernameError}
+                      {emailError}
                     </small>
                   </div>
                   <div className="input-group input-group-static mb-4">
