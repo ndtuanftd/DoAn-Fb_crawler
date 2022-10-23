@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./authen.css";
 
@@ -138,12 +139,17 @@ export default function Signup() {
               </div>
               <div className="card-footer text-center pt-0 px-lg-2 px-1">
                 <div className="mb-4 text-sm mx-auto">
-                  <a
+                  {/* <a
                     href="login"
                     class="text-primary text-gradient font-weight-bold"
                   >
                     Already has an account?
-                  </a>
+                  </a> */}
+                  <Link to="/login">
+                    <p className="text-primary text-gradient font-weight-bold">
+                      Already has an account?
+                    </p>
+                  </Link>
                 </div>
               </div>
             </div>
