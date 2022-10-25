@@ -1,19 +1,23 @@
 import React from "react";
 import "./navbar.css";
-
+import Dropdown from 'react-bootstrap/Dropdown';
 const Navbar = () => {
   return (
     <div className="navbar">
       <div className="wrapper">
         <div className="items">
           <div className="item">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1200px-Facebook_f_logo_%282021%29.svg.png"
-              alt=""
-              className="avatar"
-            />
+            <Dropdown>
+               <Dropdown.Toggle className="drop_down">
+      
+               </Dropdown.Toggle>
+               <Dropdown.Menu>
+               <Dropdown.Item href="#/action-1">My account</Dropdown.Item>
+              <Dropdown.Item href="./login">Log out</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
-        </div>
+        </div>  
       </div>
     </div>
   );

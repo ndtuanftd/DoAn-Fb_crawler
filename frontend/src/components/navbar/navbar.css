@@ -28,7 +28,16 @@
 }
 
 .avatar {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+.drop_down{
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  color: white;
+  background-image: url(https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1200px-Facebook_f_logo_%282021%29.svg.png);
+  background-size: cover;
+  background-position: center;
 }
