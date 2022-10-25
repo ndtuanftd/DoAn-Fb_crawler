@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/authen/Login";
 import Signup from "./pages/authen/Signup"
 // import { Signup } from "./pages/Signup/Signup";
-import { Dashboard } from "./pages/Dashboard/Dashboard"
+import { Dashboard } from "./pages/Dashboard/dashboard"
 // import { Home } from './pages/home/Home';
 import Cookies from './pages/cookies/Cookies';
 import Tool from './pages/tool/Tool'

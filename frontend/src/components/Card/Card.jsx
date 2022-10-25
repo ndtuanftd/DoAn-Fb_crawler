@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert } from "@mui/material";
+// import { Alert } from "@mui/material";
 
 import "./Card.css";
 export const CookieCard = () => {
@@ -46,6 +46,7 @@ const ToolCard = () => {
     console.log(textArea);
     setSubmittedText(textArea);
     setListOfUrls(textArea.split(","));
+
     setTextArea("");
   };
   return (
@@ -84,6 +85,7 @@ const ToolCard = () => {
           <p style={{ color: "red" }}>You just typed: {submittedText}</p>
         </div>
       )}
+      {/* TODO: */}
       {listOfUrls &&
         listOfUrls.map((url) => {
           // if (
@@ -91,20 +93,20 @@ const ToolCard = () => {
           //     "/(?:https?://)?(?:www.)?facebook.com/(?:(?:w.)*#!/)?(?:pages/)?(?:[w-.]*/)*([w-.]*)/"
           //   )
           // ) {
-          //     return <p>{url}</p>;
-          // } else {
+          return <p>{url}</p>;
+          // }
+          // else {
           //   return (
           //     <Alert severity="warning">
-          //       {url} is not a corrent facebook url
+          //       {url} is not a correct facebook url
           //     </Alert>
           //   );
           // }
-          return (
-            <Alert severity="warning">
-              {url} is not a corrent facebook url
-            </Alert>
-          );
-          // return <p>{url}</p>;
+          // return (
+          //   <alert severity="warning">
+          //     {url} is not a corrent facebook url
+          //   </alert>
+          // );
         })}
     </div>
   );
