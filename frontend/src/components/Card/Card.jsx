@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Alert } from "@mui/material";
 
 export const CookieCard = () => {
   return (
@@ -35,14 +36,16 @@ export const CookieCard = () => {
 };
 
 const ToolCard = () => {
-  const [urlList, setUrlList] = useState("");
+  const [textArea, setTextArea] = useState("");
   const [submittedText, setSubmittedText] = useState(null);
+  const [listOfUrls, setListOfUrls] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(urlList);
-    setSubmittedText(urlList);
-    setUrlList("");
+    console.log(textArea);
+    setSubmittedText(textArea);
+    setListOfUrls(textArea.split(","));
+    setTextArea("");
   };
   return (
     <div>
@@ -56,10 +59,10 @@ const ToolCard = () => {
                 </label>
                 <textarea
                   onChange={(event) => {
-                    setUrlList(event.target.value);
-                    console.log(urlList);
+                    setTextArea(event.target.value);
+                    console.log(textArea);
                   }}
-                  value={urlList}
+                  value={textArea}
                   class="form-control"
                   id="exampleFormControlTextarea1"
                   rows="3"
@@ -75,8 +78,32 @@ const ToolCard = () => {
         </div>
       </div>
       {submittedText && (
-        <p style={{ color: "red" }}>You just typed: {submittedText}</p>
+        <div>
+          <p style={{ color: "red" }}>You just typed: {submittedText}</p>
+        </div>
       )}
+      {listOfUrls &&
+        listOfUrls.map((url) => {
+          // if (
+          //   url.match(
+          //     "/(?:https?://)?(?:www.)?facebook.com/(?:(?:w.)*#!/)?(?:pages/)?(?:[w-.]*/)*([w-.]*)/"
+          //   )
+          // ) {
+          //     return <p>{url}</p>;
+          // } else {
+          //   return (
+          //     <Alert severity="warning">
+          //       {url} is not a corrent facebook url
+          //     </Alert>
+          //   );
+          // }
+          return (
+            <Alert severity="warning">
+              {url} is not a corrent facebook url
+            </Alert>
+          );
+          // return <p>{url}</p>;
+        })}
     </div>
   );
 };
