@@ -1,3 +1,5 @@
 test/
 frontend/.env
 frontend/build/
+.idea/*
+.idea/

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Alert } from "@mui/material";
 
+import "./Card.css";
 export const CookieCard = () => {
   return (
     <div className="card border-light shadow-sm mb-4">
@@ -53,8 +54,8 @@ const ToolCard = () => {
         <div className="card-body">
           <form onClick={handleSubmit}>
             <div class="form-row align-items-center">
-              <div class="col-sm-3 my-1">
-                <label class="sr-only" for="inlineFormInputName">
+              <div class="col-xl-4">
+                <label for="inlineFormInputName">
                   Enter facebook groups/pages 's url
                 </label>
                 <textarea
@@ -66,6 +67,7 @@ const ToolCard = () => {
                   class="form-control"
                   id="exampleFormControlTextarea1"
                   rows="3"
+                  placeholder="Ví dụ: https://www.facebook.com/groups/3105074999741166,.."
                 ></textarea>
               </div>
               <div class="col-auto my-1">
