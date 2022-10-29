@@ -3,3 +3,7 @@ test/
 /frontend/build/
 /.idea/*
 /.idea
+*.sqlite3
+__pycache__/
+migrations/
+env/
