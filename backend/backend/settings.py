@@ -80,7 +80,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'facebook_profile_scraper.apps.FacebookProfileScraperConfig',
+    'facebook_profile_scraper',
+    'usr',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
