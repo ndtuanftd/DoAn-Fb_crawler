@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./authen.css";
+import AuthContext from "../../context/AuthContext";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setpasswordError] = useState("");
+  const {loginUser} = useContext(AuthContext)
 
-  const handleValidation = (event) => {
+  const handleValidation = () => {
     let formIsValid = true;
 
     if (
@@ -39,6 +41,7 @@ export default function Login() {
   const loginSubmit = (e) => {
     e.preventDefault();
     handleValidation();
+    loginUser(username, password);
   };
 
   return (
@@ -49,8 +52,8 @@ export default function Login() {
             <div className="card mt-8">
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div className="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1 text-center py-4">
-                  <h4 class="font-weight-bolder text-white mt-1">Sign IN</h4>
-                  <p class="mb-1 text-sm text-white"> Add your credentials </p>
+                  <h4 className="font-weight-bolder text-white mt-1">Sign IN</h4>
+                  <p className="mb-1 text-sm text-white"> Add your credentials </p>
                 </div>
               </div>
               <div className="card-body">
@@ -97,7 +100,7 @@ export default function Login() {
                     </label>
                   </div>
                   {/* TODO: handle submit */}
-                  <div class="col itext-center">
+                  <div className="col itext-center">
                     <button
                       type="submit"
                       className="btn bg-gradient-dark w-100 mt-3 mb-0"

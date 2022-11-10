@@ -7,22 +7,27 @@ import {Dashboard} from "./pages/Dashboard/Dashboard"
 // import { Home } from './pages/home/Home';
 import Cookies from './pages/cookies/Cookies';
 import Tool from './pages/tool/Tool'
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './utils/PrivateRoute'
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Login */}
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
+      <AuthProvider>
+        <Routes>
+          {/* Login */}
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
 
-        {/*  */}
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/tool' element={<Tool />} />
-        <Route path='/cookies' element={<Cookies />} />
-
-      </Routes>
+          {/*  */}
+          <Route element={<PrivateRoute />}>
+            <Route path='/' element={<Dashboard />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/tool' element={<Tool />} />
+            <Route path='/cookies' element={<Cookies />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
