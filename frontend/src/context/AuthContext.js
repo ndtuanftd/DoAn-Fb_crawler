@@ -17,8 +17,11 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem('authToken'))
       : null,
   );
+  const [LoginError, setLoginError] = useState('')
+  const [RegisterError, setRegisterError] = useState('')
 
   const navigate = useNavigate();
+
 
   const loginUser = async (username, password) => {
     axios({
@@ -38,7 +41,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('authToken', JSON.stringify(response.data));
         navigate('/');
       })
-      .catch((error) => alert(error.response.data.detail));
+      .catch((error) => setLoginError(()=> error.response.data.detail));
   };
 
   const logoutUser = () => {
@@ -61,8 +64,8 @@ export const AuthProvider = ({ children }) => {
         password: password,
       },
     })
-    .then((response) => navigate('login/'))
-    .catch((error) => alert('User with the same credential is exist.'))
+    .then((response) => loginUser(username,password))
+    .catch((error) => setRegisterError(() => error.response.data))
   }
 
   let AuthData = {
@@ -73,6 +76,8 @@ export const AuthProvider = ({ children }) => {
     loginUser: loginUser,
     logoutUser: logoutUser,
     registerUser: registerUser,
+    LoginError: LoginError,
+    RegisterError: RegisterError,
   };
   return (
     <AuthContext.Provider value={AuthData}>{children}</AuthContext.Provider>

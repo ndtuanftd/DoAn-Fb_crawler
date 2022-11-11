@@ -13,7 +13,7 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [passwordError, setpasswordError] = useState('');
   const [emailError, setemailError] = useState('');
-  const { registerUser } = useContext(AuthContext);
+  const { registerUser, RegisterError } = useContext(AuthContext);
 
   const handleValidation = (event) => {
     let formIsValid = true;
@@ -76,8 +76,13 @@ export default function Signup() {
             <div className='card mt-8'>
               <div className='card-header p-0 position-relative mt-n4 mx-3 z-index-2'>
                 <div className='bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1 text-center py-4'>
-                  <h4 className='font-weight-bolder text-white mt-1'>Sign Up</h4>
-                  <p className='mb-1 text-sm text-white'> Add your credentials </p>
+                  <h4 className='font-weight-bolder text-white mt-1'>
+                    Sign Up
+                  </h4>
+                  <p className='mb-1 text-sm text-white'>
+                    {' '}
+                    Add your credentials{' '}
+                  </p>
                 </div>
               </div>
 
@@ -88,6 +93,9 @@ export default function Signup() {
                   id='loginform'
                   onSubmit={signupSubmit}
                 >
+                  <small id='emailHelp' className='text-danger form-text'>
+                    {RegisterError.username}
+                  </small>
                   <div className='input-group input-group-static mb-4'>
                     <label>Username</label>
                     <input
@@ -138,9 +146,9 @@ export default function Signup() {
                         setPasswordConfirm(event.target.value)
                       }
                     />
-                    <small id='passworderror' className='text-danger form-text'>
+                    {/* <small id='passworderror' className='text-danger form-text'>
                       {passwordError}
-                    </small>
+                    </small> */}
                   </div>
                   <div className='col itext-center'>
                     <button
