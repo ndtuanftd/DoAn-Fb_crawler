@@ -10,15 +10,7 @@ export const CookieCard = () => {
           <div class="form-row align-items-center">
             <div className="col-auto">
               <div class="custom-file">
-                <input
-                  type="file"
-                  class="custom-file-input"
-                  id="validatedCustomFile"
-                  required
-                />
-                <label class="custom-file-label" for="validatedCustomFile">
-                  Choose file...
-                </label>
+                <input class="form-control" type="file" id="formFile"></input>
                 <div class="invalid-feedback">
                   Example invalid custom file feedback
                 </div>
