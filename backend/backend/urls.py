@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('usr.api.urls'))
+    path('api/', include('usr.api.urls')),
+    path('api/', include('facebook_profile_scraper.api.urls'))
 ]
