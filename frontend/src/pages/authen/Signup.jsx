@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './authen.css';
 import { useContext } from 'react';
@@ -13,7 +13,12 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [passwordError, setpasswordError] = useState('');
   const [emailError, setemailError] = useState('');
-  const { registerUser, RegisterError } = useContext(AuthContext);
+  const {User, registerUser, RegisterError } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(User) navigate('/')
+  }, [])
 
   const handleValidation = (event) => {
     let formIsValid = true;
@@ -63,7 +68,8 @@ export default function Signup() {
 
   const signupSubmit = (e) => {
     e.preventDefault();
-    if (handleValidation()) registerUser(username, email, password);
+    handleValidation();
+    registerUser(username, email, password);
   };
 
   return (

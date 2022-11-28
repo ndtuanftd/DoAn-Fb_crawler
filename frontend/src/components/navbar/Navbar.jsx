@@ -2,7 +2,10 @@ import React from "react";
 import "./navbar.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
+import { useContext } from "react";
 const Navbar = () => {
+  const {logoutUser} = useContext(AuthContext)
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -16,7 +19,7 @@ const Navbar = () => {
                 </Dropdown.Item>
                 <Dropdown.Item>
                   {" "}
-                  <Link to="/login">Log out</Link>{" "}
+                  <Link onClick={logoutUser}>Log out</Link>{" "}
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

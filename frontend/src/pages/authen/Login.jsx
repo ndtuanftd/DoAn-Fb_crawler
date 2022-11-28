@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect  } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./authen.css";
 import AuthContext from "../../context/AuthContext";
@@ -9,7 +9,12 @@ export default function Login() {
   const [usernameError, setUsernameError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setpasswordError] = useState("");
-  const {loginUser} = useContext(AuthContext)
+  const {User, loginUser, LoginError} = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (User) navigate('/');
+  }, []);
 
   const handleValidation = () => {
     let formIsValid = true;
@@ -45,73 +50,81 @@ export default function Login() {
   };
 
   return (
-    <div className="App">
-      <div className="container mb-4">
-        <div className="row mt-lg-n12 mt-md-n12 mt-n12 justify-content-center">
-          <div className="col-xl-4 col-lg-5 col-md-7 mx-auto">
-            <div className="card mt-8">
-              <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div className="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1 text-center py-4">
-                  <h4 className="font-weight-bolder text-white mt-1">Sign IN</h4>
-                  <p className="mb-1 text-sm text-white"> Add your credentials </p>
+    <div className='App'>
+      <div className='container mb-4'>
+        <div className='row mt-lg-n12 mt-md-n12 mt-n12 justify-content-center'>
+          <div className='col-xl-4 col-lg-5 col-md-7 mx-auto'>
+            <div className='card mt-8'>
+              <div className='card-header p-0 position-relative mt-n4 mx-3 z-index-2'>
+                <div className='bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1 text-center py-4'>
+                  <h4 className='font-weight-bolder text-white mt-1'>
+                    Sign IN
+                  </h4>
+                  <p className='mb-1 text-sm text-white'>
+                    {' '}
+                    Add your credentials{' '}
+                  </p>
                 </div>
               </div>
-              <div className="card-body">
+              <div className='card-body'>
                 <form
-                  method="post"
-                  className="text-start"
-                  id="loginform"
+                  method='post'
+                  className='text-start'
+                  id='loginform'
                   onSubmit={loginSubmit}
                 >
-                  <div className="input-group input-group-static mb-4">
+                  <small id='emailHelp' className='text-danger form-text'>
+                    {LoginError}
+                  </small>
+                  <div className='input-group input-group-static mb-4'>
                     <label>Username</label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="username_login"
+                      type='text'
+                      className='form-control'
+                      id='username_login'
                       // placeholder="Enter username"
                       onChange={(event) => setUsername(event.target.value)}
                     />
-                    <small id="emailHelp" className="text-danger form-text">
+                    <small id='emailHelp' className='text-danger form-text'>
                       {usernameError}
                     </small>
                   </div>
-                  <div className="input-group input-group-static mb-4">
+                  <div className='input-group input-group-static mb-4'>
                     <label>Password</label>
                     <input
-                      type="password"
-                      className="form-control"
-                      id="pwd_login"
+                      type='password'
+                      className='form-control'
+                      id='pwd_login'
                       // placeholder="Password"
                       onChange={(event) => setPassword(event.target.value)}
                     />
-                    <small id="passworderror" className="text-danger form-text">
+                    <small id='passworderror' className='text-danger form-text'>
                       {passwordError}
                     </small>
                   </div>
-                  <div className="form-group form-check">
+                  <div className='form-group form-check'>
                     <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="exampleCheck1"
+                      type='checkbox'
+                      className='form-check-input'
+                      id='exampleCheck1'
                     />
-                    <label className="form-check-label">
+                    <label className='form-check-label'>
                       Keep me logged in
                     </label>
                   </div>
                   {/* TODO: handle submit */}
-                  <div className="col itext-center">
+                  <div className='col itext-center'>
                     <button
-                      type="submit"
-                      className="btn bg-gradient-dark w-100 mt-3 mb-0"
+                      type='submit'
+                      className='btn bg-gradient-dark w-100 mt-3 mb-0'
                     >
                       Sign in
                     </button>
                   </div>
                 </form>
               </div>
-              <div className="card-footer text-center pt-0 px-lg-2 px-1">
-                <div className="mb-4 text-sm mx-auto">
+              <div className='card-footer text-center pt-0 px-lg-2 px-1'>
+                <div className='mb-4 text-sm mx-auto'>
                   {/* <a
                     href="signup"
                     class="text-primary text-gradient font-weight-bold"
@@ -119,8 +132,8 @@ export default function Login() {
                     Register
                   </a> */}
                   <Link
-                    to="/signup"
-                    className="text-primary text-gradient font-weight-bold"
+                    to='/signup'
+                    className='text-primary text-gradient font-weight-bold'
                   >
                     Register
                   </Link>

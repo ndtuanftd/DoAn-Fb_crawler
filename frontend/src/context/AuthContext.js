@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
       .then((response) => {
         setAuthToken(() => response.data);
         setUser(() => jwt_decode(response.data.access));
+        setLoginError('')
         localStorage.setItem('authToken', JSON.stringify(response.data));
         navigate('/');
       })
@@ -64,7 +65,10 @@ export const AuthProvider = ({ children }) => {
         password: password,
       },
     })
-    .then((response) => loginUser(username,password))
+    .then((response) => {
+      setRegisterError('')
+      loginUser(username,password)
+    })
     .catch((error) => setRegisterError(() => error.response.data))
   }
 
