@@ -16,7 +16,7 @@ const Tool = () => {
         <div className="content">
           <PageTitle
             title="Facebook Profile Scraper"
-            description="Description here"
+            description="Get user profiles from Facebook Groups/Pages"
           />
           <ToolCard />
           <Datatable />

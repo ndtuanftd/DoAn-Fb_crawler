@@ -1,5 +1,6 @@
 import React from "react";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import AirplayRoundedIcon from '@mui/icons-material/AirplayRounded';
 import CookieRoundedIcon from "@mui/icons-material/CookieRounded";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import { Link } from "react-router-dom";
@@ -31,10 +32,10 @@ const Sidebar = () => {
               <span>Facebook User Profile</span>
             </li>
           </Link>
-          <Link to="/cookies" style={{ textDecoration: "none" }}>
+          <Link to="/project" style={{ textDecoration: "none" }}>
             <li>
-              <CookieRoundedIcon className="icon" />
-              <span>Verification</span>
+              <AirplayRoundedIcon className="icon" />
+              <span>Projects</span>
             </li>
           </Link>
         </ul>
