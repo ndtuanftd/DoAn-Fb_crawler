@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import ProfileContext from '../../context/ProfileContext';
 // import { Alert } from "@mui/material";
@@ -46,6 +47,8 @@ const ToolCard = () => {
   const [comments, setComments] = useState(false);
   const [reactors, setReactors] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [redirectId, setRedirectId] = useState(null);
 
   const { members, setMembers, isLoading, setIsLoading } =
     useContext(ProfileContext);
@@ -160,8 +163,6 @@ const ToolCard = () => {
                 Following_count: res.data.Following_count,
               };
 
-              // TODO: Change serializer
-
               reqs.push(JSON.stringify(usr));
             });
             axios({
@@ -174,7 +175,11 @@ const ToolCard = () => {
                 user: reqs,
               },
             })
-              .then((res) => console.log('success'))
+              .then((res) => {
+                console.log('success');
+                setRedirectId(() => proj.id);
+                setIsSaved(() => true);
+              })
               .catch((err) => alert(err));
           })
           .catch((err) => alert(err));
@@ -186,6 +191,9 @@ const ToolCard = () => {
         setIsSaving(false);
       });
   };
+
+  if (isSaved && redirectId) return <Navigate to={`/project/${redirectId}`} />;
+
   return (
     <div>
       <div className='card border-light shadow-sm mb-4'>
