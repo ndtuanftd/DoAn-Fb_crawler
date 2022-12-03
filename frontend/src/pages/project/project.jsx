@@ -9,29 +9,31 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const columns = [
-  {
-    field: 'id',
-    headerName: 'ID',
-    width: 90,
-    renderCell: (params) => (
-      <Link to={`/project/${params.value}`}>
-        <div>{params.value}</div>
-      </Link>
-    ),
-  },
-  { field: 'groupname', headerName: 'Group Name', width: 160 },
-];
+
 
 const Projects = () => {
   const [rows, setrows] = useState([]);
+
+  const columns = [
+    {
+      field: 'id',
+      headerName: 'ID',
+      width: 90,
+      renderCell: (params) => (
+        <Link to={`/project/${params.value}`}>
+          <div>{params.value}</div>
+        </Link>
+      ),
+    },
+    { field: 'groupname', headerName: 'Group Name', width: 160 },
+    { field: 'created_on', headerName: 'Created on', width: 160 },
+  ];
 
   useEffect(() => {
     axios
       .get('http://localhost:8000/api/project/')
       .then((res) => {
         setrows(() => res.data);
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);

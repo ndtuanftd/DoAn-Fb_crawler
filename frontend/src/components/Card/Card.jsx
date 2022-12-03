@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import AuthContext from '../../context/AuthContext';
 import ProfileContext from '../../context/ProfileContext';
 // import { Alert } from "@mui/material";
 
@@ -35,6 +36,8 @@ export const CookieCard = () => {
 };
 
 const ToolCard = () => {
+  const { User } = useContext(AuthContext);
+
   const [textArea, setTextArea] = useState('');
   const [submittedText, setSubmittedText] = useState(null);
   const [listOfUrls, setListOfUrls] = useState([]);
@@ -42,8 +45,10 @@ const ToolCard = () => {
   const [pages, setPages] = useState(0);
   const [comments, setComments] = useState(false);
   const [reactors, setReactors] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const { setMembers, isLoading, setIsLoading } = useContext(ProfileContext);
+  const { members, setMembers, isLoading, setIsLoading } =
+    useContext(ProfileContext);
 
   useEffect(() => {
     setSubmittedText(() => textArea);
@@ -52,12 +57,12 @@ const ToolCard = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setMembers(() => []);
     if (listOfUrls.length === 0 || !file)
       return alert('URLs and file must not be left empty');
 
-    setIsLoading(() => true);
+    const promises = [];
 
-    setTextArea(() => '');
     listOfUrls.map((url) => {
       let f = new FormData();
       f.append('group', url.trim());
@@ -65,28 +70,121 @@ const ToolCard = () => {
       f.append('comments', comments);
       f.append('reactors', reactors);
       f.append('file', file);
-      axios({
-        method: 'POST',
-        url: 'http://103.143.143.211/crawl-group',
-        headers: {
-          accept: 'application/json',
-          'Content-Type': 'multipart/form-data',
-        },
-        data: f,
-      })
-        .then((res) => {
-          setMembers((prev) => [
-            ...prev,
-            ...res.data.map((mem) => {
-              if (!prev.includes(mem)) return mem;
-            }),
-          ]);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(setIsLoading(() => false));
+
+      promises.push(
+        axios({
+          method: 'POST',
+          url: 'http://103.143.143.211/crawl-group',
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+          data: f,
+        }),
+      );
     });
+    if (promises.length) {
+      setIsLoading(() => true);
+      Promise.all(promises)
+        .then((value) => {
+          value.map((res) => {
+            setMembers((prev) => {
+              return [...prev, ...res.data];
+            });
+          });
+          setMembers((prev) =>
+            prev.map((member) => {
+              return { user_id: member.user_id, username: member.username };
+            }),
+          );
+
+          setMembers((prev) => {
+            const uniqUID = [];
+            return prev.filter((item) => {
+              if (uniqUID.includes(item.user_id)) return false;
+              uniqUID.push(item.user_id);
+              return true;
+            });
+          });
+        })
+        .catch((err) => alert(err))
+        .finally(() => {
+          setIsLoading(() => false);
+        });
+    }
+  };
+
+  const handleSave = () => {
+    const promises = [];
+    setIsSaving(true);
+    members.map((member) => {
+      let f = new FormData();
+      f.append('user', member.user_id);
+      f.append('pages', 1);
+      f.append('file', file);
+
+      promises.push(
+        axios({
+          url: 'http://103.143.143.211/crawl-user',
+          method: 'POST',
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+          data: f,
+        }),
+      );
+    });
+    Promise.all(promises)
+      .then((value) => {
+        axios({
+          url: 'http://localhost:8000/api/project/',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: {
+            groupname: submittedText,
+            owner: User.user_id,
+          },
+        })
+          .then((response) => {
+            let proj = response.data;
+            let reqs = [];
+            value.map((res) => {
+              let usr = {
+                id: res.data.id,
+                Name: res.data.Name,
+                Friend_count: res.data.Friend_count,
+                Follower_count: res.data.Follower_count,
+                Following_count: res.data.Following_count,
+              };
+
+              // TODO: Change serializer
+
+              reqs.push(JSON.stringify(usr));
+            });
+            axios({
+              url: `http://localhost:8000/api/project/${proj.id}/add-profile`,
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              data: {
+                user: reqs,
+              },
+            })
+              .then((res) => console.log('success'))
+              .catch((err) => alert(err));
+          })
+          .catch((err) => alert(err));
+        setMembers(() => []);
+        setTextArea(() => '');
+      })
+      .catch((err) => alert(err))
+      .finally(() => {
+        setIsSaving(false);
+      });
   };
   return (
     <div>
@@ -168,14 +266,9 @@ const ToolCard = () => {
                   }}
                 />
               </div>
-              <div className='col-xl-4'></div>
               <div className='col-auto my-1 p-1'>
                 {isLoading ? (
-                  <button
-                    type='submit'
-                    className='btn btn-primary'
-                    disabled={true}
-                  >
+                  <button className='btn btn-primary' disabled={true}>
                     Loading...
                   </button>
                 ) : (
@@ -183,6 +276,18 @@ const ToolCard = () => {
                     CRAWL
                   </button>
                 )}
+                {members.length !== 0 ? (
+                  !isSaving ? (
+                    <div
+                      className='btn btn-secondary mx-2'
+                      onClick={handleSave}
+                    >
+                      Save Project
+                    </div>
+                  ) : (
+                    <div className='btn btn-secondary mx-2'> Saving...</div>
+                  )
+                ) : null}
               </div>
             </div>
           </form>

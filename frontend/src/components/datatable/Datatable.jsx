@@ -10,7 +10,6 @@ const columns = [
 const Datatable = () => {
   const { members, setMembers } = useContext(ProfileContext);
 
-
   return (
     <div>
       {/* <div className='d-flex w-100 border-bottom'>
@@ -52,7 +51,9 @@ const Datatable = () => {
         pageSize={10}
         autoHeight={true}
         rowsPerPageOptions={[10]}
-        getRowId={(rows) => rows.user_id}
+        getRowId={(rows) => {
+          return rows.user_id ? rows.user_id : 0;
+        }}
       />
     </div>
   );
