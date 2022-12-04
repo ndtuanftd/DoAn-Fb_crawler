@@ -7,5 +7,6 @@ router.register('project', ProjectViewSet)
 router.register('profile', UserProfileViewSet)
 
 urlpatterns = [
-    path('project/<int:id>/add-profile', ProfileRequestView.as_view(), name='add-profile-request'),
-] +router.urls
+    path('project/<int:id>/add-profile',
+         ProfileRequestView.as_view(), name='add-profile-request'),
+] + router.urls

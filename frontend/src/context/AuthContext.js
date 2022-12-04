@@ -36,13 +36,14 @@ export const AuthProvider = ({ children }) => {
       },
     })
       .then((response) => {
+        // console.log("LoginUser response data: ", response.data.access);
         setAuthToken(() => response.data);
         setUser(() => jwt_decode(response.data.access));
         setLoginError('')
         localStorage.setItem('authToken', JSON.stringify(response.data));
         navigate('/');
       })
-      .catch((error) => setLoginError(()=> error.response.data.detail));
+      .catch((error) => setLoginError(() => error.response.data.detail));
   };
 
   const logoutUser = () => {
@@ -65,11 +66,11 @@ export const AuthProvider = ({ children }) => {
         password: password,
       },
     })
-    .then((response) => {
-      setRegisterError('')
-      loginUser(username,password)
-    })
-    .catch((error) => setRegisterError(() => error.response.data))
+      .then((response) => {
+        setRegisterError('')
+        loginUser(username, password)
+      })
+      .catch((error) => setRegisterError(() => error.response.data))
   }
 
   let AuthData = {

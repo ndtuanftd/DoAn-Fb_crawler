@@ -1,31 +1,31 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext';
-import ProfileContext from '../../context/ProfileContext';
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
+import ProfileContext from "../../context/ProfileContext";
 // import { Alert } from "@mui/material";
 
-import './Card.css';
+import "./Card.css";
 export const CookieCard = () => {
   return (
-    <div className='card border-light shadow-sm mb-4'>
-      <div className='card-body'>
-        <form action=''>
-          <div className='form-row align-items-center'>
-            <div className='col-auto'>
-              <div className='custom-file'>
+    <div className="card border-light shadow-sm mb-4">
+      <div className="card-body">
+        <form action="">
+          <div className="form-row align-items-center">
+            <div className="col-auto">
+              <div className="custom-file">
                 <input
-                  className='form-control'
-                  type='file'
-                  id='formFile'
+                  className="form-control"
+                  type="file"
+                  id="formFile"
                 ></input>
-                <div className='invalid-feedback'>
+                <div className="invalid-feedback">
                   Example invalid custom file feedback
                 </div>
               </div>
             </div>
-            <div className='col-auto'>
-              <button className='btn btn-primary' type='submit'>
+            <div className="col-auto">
+              <button className="btn btn-primary" type="submit">
                 Verify
               </button>
             </div>
@@ -39,7 +39,7 @@ export const CookieCard = () => {
 const ToolCard = () => {
   const { User } = useContext(AuthContext);
 
-  const [textArea, setTextArea] = useState('');
+  const [textArea, setTextArea] = useState("");
   const [submittedText, setSubmittedText] = useState(null);
   const [listOfUrls, setListOfUrls] = useState([]);
   const [file, setFile] = useState(null);
@@ -55,35 +55,35 @@ const ToolCard = () => {
 
   useEffect(() => {
     setSubmittedText(() => textArea);
-    setListOfUrls(() => textArea.split(','));
+    setListOfUrls(() => textArea.split(","));
   }, [textArea]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setMembers(() => []);
     if (listOfUrls.length === 0 || !file)
-      return alert('URLs and file must not be left empty');
+      return alert("URLs and file must not be left empty");
 
     const promises = [];
 
     listOfUrls.map((url) => {
       let f = new FormData();
-      f.append('group', url.trim());
-      f.append('pages', pages);
-      f.append('comments', comments);
-      f.append('reactors', reactors);
-      f.append('file', file);
+      f.append("group", url.trim());
+      f.append("pages", pages);
+      f.append("comments", comments);
+      f.append("reactors", reactors);
+      f.append("file", file);
 
       promises.push(
         axios({
-          method: 'POST',
-          url: 'http://103.143.143.211/crawl-group',
+          method: "POST",
+          url: "http://103.143.143.211/crawl-group",
           headers: {
-            accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
+            accept: "application/json",
+            "Content-Type": "multipart/form-data",
           },
           data: f,
-        }),
+        })
       );
     });
     if (promises.length) {
@@ -98,7 +98,7 @@ const ToolCard = () => {
           setMembers((prev) =>
             prev.map((member) => {
               return { user_id: member.user_id, username: member.username };
-            }),
+            })
           );
 
           setMembers((prev) => {
@@ -122,29 +122,29 @@ const ToolCard = () => {
     setIsSaving(true);
     members.map((member) => {
       let f = new FormData();
-      f.append('user', member.user_id);
-      f.append('pages', 1);
-      f.append('file', file);
+      f.append("user", member.user_id);
+      f.append("pages", 1);
+      f.append("file", file);
 
       promises.push(
         axios({
-          url: 'http://103.143.143.211/crawl-user',
-          method: 'POST',
+          url: "http://103.143.143.211/crawl-user",
+          method: "POST",
           headers: {
-            accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
+            accept: "application/json",
+            "Content-Type": "multipart/form-data",
           },
           data: f,
-        }),
+        })
       );
     });
     Promise.all(promises)
       .then((value) => {
         axios({
-          url: 'http://localhost:8000/api/project/',
-          method: 'POST',
+          url: "http://localhost:8000/api/project/",
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           data: {
             groupname: submittedText,
@@ -168,16 +168,16 @@ const ToolCard = () => {
             });
             axios({
               url: `http://localhost:8000/api/project/${proj.id}/add-profile`,
-              method: 'POST',
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               data: {
                 user: reqs,
               },
             })
               .then((res) => {
-                console.log('success');
+                console.log("success");
                 setRedirectId(() => proj.id);
                 setIsSaved(() => true);
               })
@@ -185,7 +185,7 @@ const ToolCard = () => {
           })
           .catch((err) => alert(err));
         setMembers(() => []);
-        setTextArea(() => '');
+        setTextArea(() => "");
       })
       .catch((err) => alert(err))
       .finally(() => {
@@ -197,12 +197,12 @@ const ToolCard = () => {
 
   return (
     <div>
-      <div className='card border-light shadow-sm mb-4'>
-        <div className='card-body'>
+      <div className="card border-light shadow-sm mb-4">
+        <div className="card-body">
           <form onSubmit={handleSubmit}>
-            <div className='form-row align-items-center'>
-              <div className='col-xl-4'>
-                <label htmlFor='inlineFormInputName'>
+            <div className="form-row align-items-center">
+              <div className="col-xl-4">
+                <label htmlFor="inlineFormInputName">
                   Enter facebook groups/pages 's url
                 </label>
                 <textarea
@@ -210,35 +210,35 @@ const ToolCard = () => {
                     setTextArea(() => event.target.value);
                   }}
                   value={textArea}
-                  className='form-control'
-                  id='exampleFormControlTextarea1'
-                  rows='3'
-                  placeholder='For example groups/219499848640636, groups/dilamvuithayba/, ...'
+                  className="form-control"
+                  id="exampleFormControlTextarea1"
+                  rows="3"
+                  placeholder="For example groups/219499848640636, groups/dilamvuithayba/, ..."
                 ></textarea>
               </div>
-              <div className='col-xl-4'>
-                <label htmlFor=''>pages</label>
+              <div className="col-xl-4">
+                <label htmlFor="">pages</label>
                 <input
-                  type='number'
-                  name='page'
-                  id=''
-                  value={pages + ''}
-                  className='form-control'
+                  type="number"
+                  name="page"
+                  id=""
+                  value={pages + ""}
+                  className="form-control"
                   onChange={(e) => {
                     setPages(() => parseInt(e.target.value));
                   }}
                 />
               </div>
-              <div className='col-xl-4'>
-                <label htmlFor=''>comments</label>
+              <div className="col-xl-4">
+                <label htmlFor="">comments</label>
                 <select
-                  name=''
-                  id=''
-                  className='form-control'
+                  name=""
+                  id=""
+                  className="form-control"
                   defaultValue={0}
                   onChange={(e) => {
                     setComments(() => {
-                      return e.target.value === '0' ? false : true;
+                      return e.target.value === "0" ? false : true;
                     });
                   }}
                 >
@@ -246,16 +246,16 @@ const ToolCard = () => {
                   <option value={1}>true</option>
                 </select>
               </div>
-              <div className='col-xl-4'>
-                <label htmlFor=''>reactors</label>
+              <div className="col-xl-4">
+                <label htmlFor="">reactors</label>
                 <select
-                  name=''
-                  id=''
-                  className='form-control'
+                  name=""
+                  id=""
+                  className="form-control"
                   defaultValue={0}
                   onChange={(e) => {
                     setReactors(() => {
-                      return e.target.value === '0' ? false : true;
+                      return e.target.value === "0" ? false : true;
                     });
                   }}
                 >
@@ -263,38 +263,38 @@ const ToolCard = () => {
                   <option value={1}>true</option>
                 </select>
               </div>
-              <div className='col-xl-4'>
-                <label htmlFor=''>file</label>
+              <div className="col-xl-4">
+                <label htmlFor="">file</label>
                 <input
-                  type='file'
-                  name=''
-                  id=''
-                  className='form-control'
+                  type="file"
+                  name=""
+                  id=""
+                  className="form-control"
                   onChange={(e) => {
                     if (e.target.files) setFile(() => e.target.files[0]);
                   }}
                 />
               </div>
-              <div className='col-auto my-1 p-1'>
+              <div className="col-auto my-1 p-1 tool-submit-btn">
                 {isLoading ? (
-                  <button className='btn btn-primary' disabled={true}>
+                  <button className="btn btn-primary" disabled={true}>
                     Loading...
                   </button>
                 ) : (
-                  <button type='submit' className='btn btn-primary'>
+                  <button type="submit" className="btn btn-primary">
                     CRAWL
                   </button>
                 )}
                 {members.length !== 0 ? (
                   !isSaving ? (
                     <div
-                      className='btn btn-secondary mx-2'
+                      className="btn btn-secondary mx-2"
                       onClick={handleSave}
                     >
                       Save Project
                     </div>
                   ) : (
-                    <div className='btn btn-secondary mx-2'> Saving...</div>
+                    <div className="btn btn-secondary mx-2"> Saving...</div>
                   )
                 ) : null}
               </div>
@@ -304,7 +304,7 @@ const ToolCard = () => {
       </div>
       {submittedText && (
         <div>
-          <p style={{ color: 'red' }}>You just typed: {submittedText}</p>
+          <p style={{ color: "red" }}>You just typed: {submittedText}</p>
         </div>
       )}
       {/* TODO: */}

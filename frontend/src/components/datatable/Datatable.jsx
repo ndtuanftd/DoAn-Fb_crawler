@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import ProfileContext from '../../context/ProfileContext';
+import React, { useContext } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import ProfileContext from "../../context/ProfileContext";
 
 const columns = [
-  { field: 'user_id', headerName: 'User ID', width: 200 },
-  { field: 'username', headerName: 'Username', width: 255 },
+  { field: "user_id", headerName: "User ID", width: 200 },
+  { field: "username", headerName: "Username", width: 255 },
 ];
 
 const Datatable = () => {
   const { members, setMembers } = useContext(ProfileContext);
+  console.log("Profile Context: ", ProfileContext);
 
   return (
     <div>
