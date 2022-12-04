@@ -9,8 +9,6 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-
-
 const Projects = () => {
   const [rows, setrows] = useState([]);
 
@@ -19,13 +17,32 @@ const Projects = () => {
       field: 'id',
       headerName: 'ID',
       width: 90,
-      renderCell: (params) => (
-        <Link to={`/project/${params.value}`}>
-          <div>{params.value}</div>
-        </Link>
-      ),
+      renderCell: (params) => {
+        return (
+          <Link to={`/project/${params.value}`}>
+            <div>{params.value}</div>
+          </Link>
+        );
+      },
     },
-    { field: 'groupname', headerName: 'Group Name', width: 160 },
+    {
+      field: 'groupname',
+      headerName: 'Group Name',
+      width: 160,
+      renderCell: (params) => {
+        return (
+          <Link
+            to={
+              params.getValue(params.id, 'id')
+                ? `/project/${params.getValue(params.id, 'id')}`
+                : ''
+            }
+          >
+            <div>{params.value}</div>
+          </Link>
+        );
+      },
+    },
     { field: 'created_on', headerName: 'Created on', width: 160 },
   ];
 

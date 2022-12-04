@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import Sidebar from '../../components/sidebar/Sidebar';
+import AuthContext from '../../context/AuthContext';
 
 import './error.css'
 
 const Error = () => {
+  const {User} = useContext(AuthContext)
   return (
     <div className='error-page'>
       <Sidebar />
       <div className='error-page-container'>
-        <Navbar />
+        { User ? <Navbar /> : null}
         <div className='content'>
           <center>
             <h2>

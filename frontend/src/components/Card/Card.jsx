@@ -161,6 +161,7 @@ const ToolCard = () => {
                 Friend_count: res.data.Friend_count,
                 Follower_count: res.data.Follower_count,
                 Following_count: res.data.Following_count,
+                location: res.data['Nơi từng sống'] ? res.data['Nơi từng sống'] : '',
               };
 
               reqs.push(JSON.stringify(usr));

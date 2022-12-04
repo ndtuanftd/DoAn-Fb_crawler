@@ -29,10 +29,11 @@ const SingleProject = () => {
 
    const columns = [
      { field: 'profile_id', headerName: 'Profile ID', width: 160 },
-     {field: 'name', headerName: 'Profile Name', width: 255},
+     {field: 'name', headerName: 'Profile Name', width: 200},
      {field: 'friend_count', headerName: 'Friends Count', width: 120},
      {field: 'follower_count', headerName: 'Follower Count', width: 120},
      {field: 'following_count', headerName: 'Following Count', width: 120},
+     {field: 'location', headerName: 'Location', width: 255}
    ];
 
   if (id === null || isNaN(id) || notFound) return <Navigate to={'/error'} />

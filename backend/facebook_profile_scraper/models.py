@@ -14,4 +14,5 @@ class UserProfile(models.Model):
     friend_count = models.IntegerField(null=False, default=0)
     follower_count = models.IntegerField(null=False, default=0)
     following_count = models.IntegerField(null=False, default=0)
+    location = models.CharField(default='', max_length=255, null=False)
     belong_to = models.ManyToManyField(Project)

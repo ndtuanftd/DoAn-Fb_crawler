@@ -38,14 +38,12 @@ class ProfileRequestView(APIView):
             try:
                 proj = Project.objects.get(id=id)
                 users = serializer.data['user']
-                print(users)
                 for user in users:
-                    print(user)
                     user = json.loads(user)
                     if user['id'] is None:
                         return Response({'detail': 'Bad input format'}, status=status.HTTP_400_BAD_REQUEST)
                     prof, created = UserProfile.objects.get_or_create(
-                        profile_id=user['id'], name=user['Name'] if user['Name'] is not None else '')
+                        profile_id=user['id'], name=user['Name'] if user['Name'] is not None else '', location=user['location'].split('\n')[0])
                     prof.friend_count = user['Friend_count'] if user['Friend_count'] is not None else 0
                     prof.follower_count = user['Follower_count'] if user['Follower_count'] is not None else 0
                     prof.following_count = user['Following_count'] if user['Following_count'] is not None else 0
