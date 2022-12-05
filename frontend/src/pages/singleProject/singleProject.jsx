@@ -17,6 +17,7 @@ const SingleProject = () => {
   const [notFound, setNotFound] = useState(false);
   var followerPoints = [];
   var followingPoints = [];
+  var locationPoints = [];
   useEffect(() => {
     axios({
       url: `http://localhost:8000/api/profile/?q=${id}`,
@@ -38,7 +39,7 @@ const SingleProject = () => {
     { field: "friend_count", headerName: "Friends Count", width: 120 },
     { field: "follower_count", headerName: "Follower Count", width: 120 },
     { field: "following_count", headerName: "Following Count", width: 120 },
-    { field: 'location', headerName: 'Location', width: 255}
+    { field: "location", headerName: "Location", width: 255 },
   ];
 
   if (id === null || isNaN(id) || notFound) return <Navigate to={"/error"} />;
@@ -46,6 +47,7 @@ const SingleProject = () => {
   /*
    * Archive data for plotting
    */
+  // console.log("List", list);
   for (let index = 0; index < list.length; index++) {
     followerPoints.push({
       label: list[index].name,
@@ -56,77 +58,120 @@ const SingleProject = () => {
       label: list[index].name,
       y: list[index].following_count,
     });
+    locationPoints.push({
+      label: list[index].name,
+      y: list[index].location,
+    });
   }
-  console.log("DataPoints", followerPoints);
 
-  var count = followerPoints.reduce((p, c) => {
-    var follower = c.y;
-    if (!p.hasOwnProperty(follower)) {
-      p[follower] = 0;
+  // /* Folllower */
+  // var count = followerPoints.reduce((p, c) => {
+  //   var follower = c.y;
+  //   if (!p.hasOwnProperty(follower)) {
+  //     p[follower] = 0;
+  //   }
+  //   p[follower]++;
+  //   return p;
+  // }, {});
+
+  // var countsExtended = Object.keys(count).map((k) => {
+  //   return { label: k, y: count[k] };
+  // });
+
+  // const followerChartOption = {
+  //   animationEnable: true,
+  //   exportEnabled: true,
+  //   theme: "light1",
+  //   title: {
+  //     text: "Visualization for members's followers in group",
+  //   },
+  //   axisX: {
+  //     title: "Member",
+  //     reversed: true,
+  //   },
+  //   axisY: {
+  //     title: "Number of following",
+  //     includeZero: true,
+  //     // labelFormatter: addSymbols,
+  //   },
+  //   data: [
+  //     {
+  //       type: "column",
+  //       indexLabel: "{y}",
+  //       startAngle: -90,
+  //       dataPoints: countsExtended,
+  //     },
+  //   ],
+  // };
+
+  /* location  */
+  /* Location count */
+  var locationCount = locationPoints.reduce((p, c) => {
+    var location = c.y;
+    if (!p.hasOwnProperty(location)) {
+      p[location] = 0;
     }
-    p[follower]++;
+    p[location]++;
     return p;
   }, {});
 
-  console.log("count", count);
-  console.log("Count at 0", count[0]);
-
-  var countsExtended = Object.keys(count).map((k) => {
-    return { label: k, y: count[k] };
+  var locationCountsExtended = Object.keys(locationCount).map((k) => {
+    console.log("k", k);
+    return { label: k === "" ? "hidden" : k, y: locationCount[k] };
   });
-  console.log("count extended", countsExtended);
+  console.log("locationCount extended", locationCountsExtended);
+  console.log("location Object", locationPoints);
 
-  const followerChartOption = {
+  const locationChartOption = {
     animationEnable: true,
     exportEnabled: true,
     theme: "light1",
     title: {
-      text: "Visualization for members's followers in group",
+      text: "Visualization for members by cities the group",
     },
     axisX: {
-      title: "Member",
+      title: "City",
       reversed: true,
     },
     axisY: {
-      title: "Number of following",
+      title: "Number of members",
       includeZero: true,
-      // labelFormatter: addSymbols,
     },
     data: [
       {
         type: "column",
         indexLabel: "{y}",
         startAngle: -90,
-        dataPoints: countsExtended,
+        dataPoints: locationCountsExtended,
       },
     ],
   };
 
-  /* Pie chart */
-  var pieChartData = [
-    { y: 20, label: "Airfare" },
-    { y: 24, label: "Food & Drinks" },
-    { y: 20, label: "Accomodation" },
-    { y: 14, label: "Transportation" },
-    { y: 12, label: "Activities" },
-    { y: 10, label: "Misc" },
-  ];
-  const pieOptions = {
-    animationEnabled: true,
-    exportEnabled: true,
-    theme: "light2", // "light1", "dark1", "dark2"
-    title: {
-      text: "Trip Expenses",
-    },
-    data: [
-      {
-        type: "pie",
-        indexLabel: "{label}: {y}%",
-        startAngle: -90,
-        dataPoints: pieChartData,
-      },
-    ],
-  };
+  // /* Pie chart */
+  // var pieChartData = [
+  //   { y: 20, label: "Airfare" },
+  //   { y: 24, label: "Food & Drinks" },
+  //   { y: 20, label: "Accomodation" },
+  //   { y: 14, label: "Transportation" },
+  //   { y: 12, label: "Activities" },
+  //   { y: 10, label: "Misc" },
+  // ];
+  // const pieOptions = {
+  //   animationEnabled: true,
+  //   exportEnabled: true,
+  //   theme: "light2", // "light1", "dark1", "dark2"
+  //   title: {
+  //     text: "Trip Expenses",
+  //   },
+  //   data: [
+  //     {
+  //       type: "pie",
+  //       indexLabel: "{label}: {y}%",
+  //       startAngle: -90,
+  //       dataPoints: pieChartData,
+  //     },
+  //   ],
+  // };
 
   return (
     <div className="projects">
@@ -148,7 +193,7 @@ const SingleProject = () => {
             />
           </div>
           <div className="Charts">
-            <CanvasJSChart options={followerChartOption} />
+            <CanvasJSChart options={locationChartOption} />
             {/* <CanvasJSChart options={pieOptions} /> */}
           </div>
         </div>
