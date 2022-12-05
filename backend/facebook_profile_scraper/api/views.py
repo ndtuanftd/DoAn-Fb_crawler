@@ -11,6 +11,17 @@ class ProjectViewSet(ModelViewSet):
     queryset= Project.objects.all()
     serializer_class = ProjectSerializer
 
+    def list(self, request):
+        user_id = request.GET.get('q')
+        if user_id is None:
+            queryset = Project.objects.all()
+            serializer = ProjectSerializer(queryset, many=True)
+            return Response(serializer.data)
+
+        queryset = Project.objects.filter(owner=user_id)
+        serializer = ProjectSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 class UserProfileViewSet(ModelViewSet):
     queryset= UserProfile.objects.all()
     serializer_class = UserProfileSerializer

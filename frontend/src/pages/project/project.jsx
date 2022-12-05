@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Navbar from '../../components/navbar/Navbar';
 import PageTitle from '../../components/pageTitle/PageTitle';
@@ -8,9 +8,11 @@ import './project.css';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
 
 const Projects = () => {
   const [rows, setrows] = useState([]);
+  const {User} = useContext(AuthContext)
 
   const columns = [
     {
@@ -48,7 +50,7 @@ const Projects = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8000/api/project/')
+      .get(`http://localhost:8000/api/project/?q=${User.user_id}`)
       .then((res) => {
         setrows(() => res.data);
       })
