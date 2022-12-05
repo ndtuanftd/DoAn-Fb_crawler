@@ -49,6 +49,7 @@ const Projects = () => {
   ];
 
   useEffect(() => {
+    console.log(User)
     axios
       .get(`http://localhost:8000/api/project/?q=${User.user_id}`)
       .then((res) => {
