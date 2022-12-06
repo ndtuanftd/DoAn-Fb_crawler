@@ -9,7 +9,7 @@ const columns = [
 
 const Datatable = () => {
   const { members, setMembers } = useContext(ProfileContext);
-  console.log("Profile Context: ", ProfileContext);
+  // console.log("Profile Context: ", ProfileContext);
 
   return (
     <div>

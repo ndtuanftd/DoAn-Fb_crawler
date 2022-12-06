@@ -35,8 +35,8 @@ const Projects = () => {
         return (
           <Link
             to={
-              params.getValue(params.id, 'id')
-                ? `/project/${params.getValue(params.id, 'id')}`
+              params.row.id
+                ? `/project/${params.row.id}`
                 : ''
             }
           >
@@ -48,14 +48,19 @@ const Projects = () => {
     { field: 'created_on', headerName: 'Created on', width: 160 },
   ];
 
+  const fetchData = async () => {
+    try {
+      let response = await axios.get(
+        `http://localhost:8000/api/project/?q=${User.user_id}`,
+      );
+      setrows(() => response.data)
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+
   useEffect(() => {
-    console.log(User)
-    axios
-      .get(`http://localhost:8000/api/project/?q=${User.user_id}`)
-      .then((res) => {
-        setrows(() => res.data);
-      })
-      .catch((err) => console.log(err));
+    fetchData()
   }, []);
   return (
     <div className='projects'>

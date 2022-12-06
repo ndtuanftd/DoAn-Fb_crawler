@@ -18,19 +18,22 @@ const SingleProject = () => {
   var followerPoints = [];
   var followingPoints = [];
   var locationPoints = [];
-  useEffect(() => {
-    axios({
-      url: `http://localhost:8000/api/profile/?q=${id}`,
-      method: "GET",
-    })
-      .then((res) => {
-        setList(() => res.data);
-      })
-      .then((data) => {})
-      .catch((err) => {
-        console.log(err);
-        setNotFound(true);
+
+  const fetchData = async () => {
+    try {
+      let response = await axios({
+        url: `http://localhost:8000/api/profile/?q=${id}`,
+        method: 'GET',
       });
+      setList(() => response.data);
+    } catch (err) {
+      console.log(err.message)
+      setNotFound(() => true)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
   }, []);
 
   const columns = [
@@ -116,11 +119,11 @@ const SingleProject = () => {
   }, {});
 
   var locationCountsExtended = Object.keys(locationCount).map((k) => {
-    console.log("k", k);
+    // console.log("k", k);
     return { label: k === "" ? "hidden" : k, y: locationCount[k] };
   });
-  console.log("locationCount extended", locationCountsExtended);
-  console.log("location Object", locationPoints);
+  // console.log("locationCount extended", locationCountsExtended);
+  // console.log("location Object", locationPoints);
 
   const locationChartOption = {
     animationEnable: true,
