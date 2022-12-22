@@ -45,7 +45,7 @@ export default function Login() {
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    handleValidation();
+    // handleValidation();
     loginUser(username, password);
   };
 

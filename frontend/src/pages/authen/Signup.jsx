@@ -68,7 +68,7 @@ export default function Signup() {
 
   const signupSubmit = (e) => {
     e.preventDefault();
-    handleValidation();
+    // handleValidation();
     registerUser(username, email, password);
   };
 
